@@ -88,6 +88,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
+
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed
@@ -228,7 +229,7 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  -- 'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -521,6 +522,15 @@ require('lazy').setup({
               callback = vim.lsp.buf.clear_references,
             })
           end
+
+          local format_sync_grp = vim.api.nvim_create_augroup('GoImport', {})
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            group = format_sync_grp,
+            pattern = '*.go',
+            callback = function()
+              require('go.format').goimport()
+            end,
+          })
         end,
       })
 
@@ -542,7 +552,28 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        gopls = {},
+        gopls = {
+          root_dir = require('lspconfig.util').root_pattern('go.mod', '.git'),
+          filetypes = { 'go', 'gomod' },
+          settings = {
+            gopls = {
+              hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                compositeLiteralTypes = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true,
+              },
+              completeUnimported = true,
+              gofumpt = true,
+              -- analyses = {},
+              staticcheck = true,
+            },
+          },
+        },
+        templ = {},
         tailwindcss = {
           filetypes = { 'templ' },
           init_options = { userLanguages = { templ = 'html' } },
@@ -619,7 +650,7 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, go = true }
         return {
           timeout_ms = 500,
           lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
@@ -853,6 +884,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
+  -- require 'kickstart.plugins.go_lint',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

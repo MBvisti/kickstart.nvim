@@ -34,3 +34,7 @@ vim.o.termguicolors = true
 vim.filetype.add { extension = { templ = 'templ' } }
 
 vim.o.hlsearch = false
+
+vim.cmd [[
+  filetype plugin indent on
+]]
