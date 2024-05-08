@@ -17,6 +17,9 @@ vim.o.cursorline = true
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+
 vim.g.wiki_root = '~/wiki'
 vim.cmd [[
   let g:wiki_journal_index = {
@@ -27,9 +30,7 @@ vim.cmd [[
 
 vim.o.guicursor = 'a:blinkon0'
 
-vim.g.copilot_no_tab_map = true
-
-vim.o.termguicolors = true
+-- vim.g.copilot_no_tab_map = true
 
 vim.filetype.add { extension = { templ = 'templ' } }
 

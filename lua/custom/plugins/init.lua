@@ -3,7 +3,8 @@
 --
 -- See the kickstart.nvim README for more information
 return {
-  'github/copilot.vim',
+  -- 'github/copilot.vim',
+  'tpope/vim-fugitive',
 
   -- lazy.nvim
   {
@@ -20,9 +21,8 @@ return {
       -- refer to the configuration section below
     },
   },
-  'mbbill/undotree',
 
-  { 'numToStr/Comment.nvim', opts = {} },
+  'mbbill/undotree',
 
   {
     'NoahTheDuke/vim-just',
@@ -30,7 +30,9 @@ return {
   },
 
   'vimwiki/vimwiki',
-  'lervag/wiki.vim',
+  {
+    'lervag/wiki.vim',
+  },
   -- Lua
   {
     'folke/zen-mode.nvim',
@@ -80,12 +82,15 @@ return {
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- load the colorscheme here
-      vim.cmd [[colorscheme gruvbox-material]]
+      vim.cmd [[
+	set termguicolors
+	let g:gruvbox_material_better_performance = 1
+	let g:gruvbox_material_diagnostic_virtual_text='colored'
+
+        colorscheme gruvbox-material
+      ]]
     end,
   },
-
-  -- comes statusline with tmux
-  -- 'vimpostor/vim-tpipeline',
 
   {
     'stevearc/oil.nvim',
@@ -94,6 +99,7 @@ return {
       default_file_explorer = false,
     },
   },
+
   {
     'kdheepak/lazygit.nvim',
     cmd = {
@@ -108,16 +114,10 @@ return {
       'nvim-lua/plenary.nvim',
     },
   },
-  -- {
-  --   'mistricky/codesnap.nvim',
-  --   build = 'make',
-  --   opts = {
-  --     mac_window_bar = false, -- (Optional) MacOS style title bar switch
-  --     opacity = true, -- (Optional) The code snap has some opacity by default, set it to false for 100% opacity
-  --     watermark = '@mbvisti', -- (Optional) you can custom your own watermark, but if you don't like it, just set it to ""
-  --     preview_title = 'mbv labs', -- (Optional) preview page title
-  --     editor_font_family = 'CaskaydiaCove Nerd Font', -- (Optional) preview code font family
-  --     watermark_font_family = 'Pacifico', -- (Optional) watermark font family
-  --   },
-  -- },
+  {
+    'kiyoon/jupynium.nvim',
+    -- build = 'pip3 install --user .',
+    -- build = "conda run --no-capture-output -n jupynium pip install .",
+    -- enabled = vim.fn.isdirectory(vim.fn.expand "~/miniconda3/envs/jupynium"),
+  },
 }
