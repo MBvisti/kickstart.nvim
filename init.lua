@@ -241,7 +241,7 @@ require('lazy').setup({
   --    require('Comment').setup({})
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  -- { 'numToStr/Comment.nvim', opts = {} },
 
   -- Here is a more advanced example where we pass configuration
   -- options to `gitsigns.nvim`. This is equivalent to the following lua:
@@ -517,6 +517,10 @@ require('lazy').setup({
               callback = vim.lsp.buf.document_highlight,
             })
 
+            -- if client.server_capabilities.inlayHintProvider then
+            --   vim.lsp.inlay_hint.enable(event.buf, true)
+            -- end
+
             vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
               buffer = event.buf,
               callback = vim.lsp.buf.clear_references,
@@ -557,15 +561,15 @@ require('lazy').setup({
           filetypes = { 'go', 'gomod' },
           settings = {
             gopls = {
-              hints = {
-                assignVariableTypes = true,
-                compositeLiteralFields = true,
-                compositeLiteralTypes = true,
-                constantValues = true,
-                functionTypeParameters = true,
-                parameterNames = true,
-                rangeVariableTypes = true,
-              },
+              -- hints = {
+              --   assignVariableTypes = true,
+              --   compositeLiteralFields = true,
+              --   compositeLiteralTypes = true,
+              --   constantValues = true,
+              --   functionTypeParameters = true,
+              --   parameterNames = true,
+              --   rangeVariableTypes = true,
+              -- },
               completeUnimported = true,
               gofumpt = true,
               -- analyses = {},
